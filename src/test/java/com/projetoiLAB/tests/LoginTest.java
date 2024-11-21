@@ -1,11 +1,8 @@
 package com.projetoiLAB.tests;
 
 import com.projetoiLAB.pages.LoginPage;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
+import com.projetoiLAB.utils.ExtentManager;
+import org.junit.jupiter.api.*;
 
 import java.util.Set;
 
@@ -22,17 +19,24 @@ public class LoginTest {
     private static final String URL_ORANGEHRM = "http://www.orangehrm.com";
 
     @BeforeEach
-    public void beforeEach(){
+    public void beforeEach(TestInfo testInfo){
+        ExtentManager.initReports();
+        String testName = testInfo.getDisplayName();
+
+        ExtentManager.createTest(testName);
+        ExtentManager.getTest().info("Iniciando o teste: " + testName);
         this.loginPage = new LoginPage();
     }
 
     @AfterEach
     public void afterEach(){
         loginPage.close();
+        ExtentManager.getTest().info("Finalizando o teste.");
+        ExtentManager.flushReports();
     }
 
     @Test
-    public void CT01(){
+    public void CT01LoginValido(){
         loginPage.fillLoginInputs("Admin", "admin123");
         loginPage.takeScreenShot("CT01_CredenciaisPreenchidas");
         loginPage.submitLogin();
@@ -43,7 +47,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT02(){
+    public void CT02LoginComSenhaErrada(){
         loginPage.fillLoginInputs("Admin", "adm123");
         loginPage.takeScreenShot("CT02_CredenciaisPreenchidas");
         loginPage.submitLogin();
@@ -54,7 +58,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT03(){
+    public void CT03LoginComUsuarioErrado(){
         loginPage.fillLoginInputs("Administrador", "adm123");
         loginPage.takeScreenShot("CT03_CredenciaisPreenchidas");
         loginPage.submitLogin();
@@ -65,7 +69,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT04(){
+    public void CT04LoginCredenciaisEmBranco(){
         loginPage.fillLoginInputs("", "");
         loginPage.takeScreenShot("CT04_CredenciaisEmBranco");
         loginPage.submitLogin();
@@ -77,7 +81,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT05(){
+    public void CT05LinkEsqueciMinhaSenha(){
         loginPage.clickOnLinkForgot();
         loginPage.takeScreenShot("CT05_ForgotMyPassword");
         try {
@@ -95,7 +99,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT06(){
+    public void CT06LinkLinkedIN(){
         loginPage.clickOnLink(URL_LINKEDIN);
         loginPage.takeScreenShot("CT06_ClickLinkedin");
 
@@ -106,7 +110,7 @@ public class LoginTest {
         loginPage.takeScreenShot("CT06_LinkedinPage");
     }
     @Test
-    public void CT07(){
+    public void CT07LinkYoutube(){
         loginPage.clickOnLink(URL_YOUTUBE);
         loginPage.takeScreenShot("CT07_ClickYoutube");
 
@@ -118,7 +122,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT08(){
+    public void CT08LinkFacebook(){
         loginPage.clickOnLink(URL_FACEBOOK);
         loginPage.takeScreenShot("CT08_ClickFacebook");
 
@@ -130,7 +134,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT09(){
+    public void CT09LinkTwitter(){
         loginPage.clickOnLink(URL_TWITTER);
         loginPage.takeScreenShot("CT09_ClickTwitter");
 
@@ -142,7 +146,7 @@ public class LoginTest {
     }
 
     @Test
-    public void CT10(){
+    public void CT10LinkOrangeHRM(){
         loginPage.clickOnLink(URL_ORANGEHRM);
         loginPage.takeScreenShot("CT10_ClickOrangeHRM");
 

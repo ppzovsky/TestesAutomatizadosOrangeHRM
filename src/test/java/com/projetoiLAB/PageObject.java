@@ -1,5 +1,7 @@
 package com.projetoiLAB;
 
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.projetoiLAB.utils.ExtentManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.OutputType;
@@ -40,6 +42,8 @@ public class PageObject {
 
         try {
             Files.copy(screenshot.toPath(), Paths.get(screenshotName), StandardCopyOption.REPLACE_EXISTING);
+            ExtentManager.getTest().info("Captura de tela adicionada",
+                    MediaEntityBuilder.createScreenCaptureFromPath("/"+screenshotName).build());
         } catch (IOException e) {
             System.err.println("Erro ao salvar o screenshot: " + e.getMessage());
         }

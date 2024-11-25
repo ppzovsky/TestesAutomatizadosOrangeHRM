@@ -1,5 +1,7 @@
 package com.projetoiLAB;
 
+import atu.testrecorder.ATUTestRecorder;
+import atu.testrecorder.exceptions.ATUTestRecorderException;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.projetoiLAB.utils.ExtentManager;
 import org.openqa.selenium.*;
@@ -12,14 +14,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class PageObject {
 
     protected WebDriver webDriver;
     protected WebDriverWait wait;
+
+    ATUTestRecorder gravacao;
 
     public PageObject(WebDriver webDriver) {
            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -51,6 +58,19 @@ public class PageObject {
             System.err.println("Erro ao salvar o screenshot: " + e.getMessage());
         }
 
+    }
+
+    public void recordVideo (String testName) throws ATUTestRecorderException{
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm"));
+        String videoDir = "evidences/videos/";
+        String videoName = testName + "_" + timestamp;
+
+        gravacao = new ATUTestRecorder(videoDir, videoName, false);
+        gravacao.start();
+    }
+
+    public void stopVideo () throws ATUTestRecorderException{
+        gravacao.stop();
     }
 
     public void close() {

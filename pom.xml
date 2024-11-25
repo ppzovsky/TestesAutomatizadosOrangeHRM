@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>br.com.alura</groupId>
+    <groupId>br.com.iLAB</groupId>
     <artifactId>leilao</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>leilao</name>
+    <name>automacaoorangehrm</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -49,6 +49,7 @@
             <artifactId>selenium-chrome-driver</artifactId>
             <version>4.11.0</version>
         </dependency>
+
     </dependencies>
 
     <build>

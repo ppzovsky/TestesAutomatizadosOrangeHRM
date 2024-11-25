@@ -14,11 +14,7 @@ public class LoginPage extends PageObject {
     public LoginPage() {
         super(null);
         this.webDriver.navigate().to(URL_LOGIN_PAGE);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/div[2]")));
     }
 
     public void fillLoginInputs (String username, String password){

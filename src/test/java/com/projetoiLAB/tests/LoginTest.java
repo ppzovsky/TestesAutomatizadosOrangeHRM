@@ -1,5 +1,6 @@
 package com.projetoiLAB.tests;
 
+import atu.testrecorder.exceptions.ATUTestRecorderException;
 import com.projetoiLAB.pages.LoginPage;
 import com.projetoiLAB.utils.ExtentManager;
 import org.junit.jupiter.api.*;
@@ -23,20 +24,22 @@ public class LoginTest {
     private static final String URL_ORANGEHRM = "http://www.orangehrm.com";
 
     @BeforeEach
-    public void beforeEach(TestInfo testInfo){
+    public void beforeEach(TestInfo testInfo) throws ATUTestRecorderException {
         ExtentManager.initReports();
         String testName = testInfo.getDisplayName();
 
         ExtentManager.createTest(testName);
         ExtentManager.getTest().info("Iniciando o teste: " + testName);
         this.loginPage = new LoginPage();
+        loginPage.recordVideo(testName);
     }
 
     @AfterEach
-    public void afterEach(){
+    public void afterEach() throws ATUTestRecorderException{
         loginPage.close();
         ExtentManager.getTest().info("Finalizando o teste.");
         ExtentManager.flushReports();
+        loginPage.stopVideo();
     }
 
     @Test

@@ -2,30 +2,33 @@ package com.projetoiLAB;
 
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.projetoiLAB.utils.ExtentManager;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class PageObject {
 
     protected WebDriver webDriver;
+    protected WebDriverWait wait;
 
     public PageObject(WebDriver webDriver) {
            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         if (webDriver == null) {
-            this.webDriver = new ChromeDriver();;
+            this.webDriver = new ChromeDriver();
         } else {
             this.webDriver = webDriver;
         }
+        this.wait = new WebDriverWait(this.webDriver, Duration.ofSeconds(10));
     }
 
     public void takeScreenShot(String test){
@@ -33,8 +36,8 @@ public class PageObject {
         String screenshotName = "evidences/screenshots/" + test + "_" + timestamp + ".png";
 
         try {
-            Thread.sleep(2500);
-        } catch (InterruptedException e) {
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
+        } catch (TimeoutException e) {
             e.printStackTrace();
         }
 

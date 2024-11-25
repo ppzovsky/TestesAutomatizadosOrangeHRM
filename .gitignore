@@ -12,6 +12,7 @@ evidences/
 *.iws
 *.iml
 *.ipr
+*.png
 
 ### Eclipse ###
 .apt_generated

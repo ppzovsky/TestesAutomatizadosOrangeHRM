@@ -3,6 +3,8 @@ package com.projetoiLAB.pages;
 import com.projetoiLAB.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Set;
 
@@ -33,6 +35,7 @@ public class LoginPage extends PageObject {
     }
 
     public boolean isSelectedPage(String page) {
+        this.wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
         return this.webDriver.getCurrentUrl().equals(page);
     }
 

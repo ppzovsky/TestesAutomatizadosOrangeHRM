@@ -3,9 +3,13 @@ package com.projetoiLAB.tests;
 import com.projetoiLAB.pages.LoginPage;
 import com.projetoiLAB.utils.ExtentManager;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Set;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginTest {
 
     private LoginPage loginPage;
@@ -36,6 +40,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(1)
     public void CT01LoginValido(){
         loginPage.fillLoginInputs("Admin", "admin123");
         loginPage.takeScreenShot("CT01_CredenciaisPreenchidas");
@@ -47,6 +52,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(2)
     public void CT02LoginComSenhaErrada(){
         loginPage.fillLoginInputs("Admin", "adm123");
         loginPage.takeScreenShot("CT02_CredenciaisPreenchidas");
@@ -58,6 +64,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(3)
     public void CT03LoginComUsuarioErrado(){
         loginPage.fillLoginInputs("Administrador", "adm123");
         loginPage.takeScreenShot("CT03_CredenciaisPreenchidas");
@@ -69,6 +76,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(4)
     public void CT04LoginCredenciaisEmBranco(){
         loginPage.fillLoginInputs("", "");
         loginPage.takeScreenShot("CT04_CredenciaisEmBranco");
@@ -81,14 +89,10 @@ public class LoginTest {
     }
 
     @Test
+    @Order(5)
     public void CT05LinkEsqueciMinhaSenha(){
         loginPage.clickOnLinkForgot();
         loginPage.takeScreenShot("CT05_ForgotMyPassword");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         Assertions.assertFalse(loginPage.isSelectedPage(URL_LOGIN_PAGE));
         Assertions.assertTrue(loginPage.isSelectedPage(URL_RESETPASSWORD_PAGE));
@@ -99,6 +103,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(6)
     public void CT06LinkLinkedIN(){
         loginPage.clickOnLink(URL_LINKEDIN);
         loginPage.takeScreenShot("CT06_ClickLinkedin");
@@ -110,6 +115,7 @@ public class LoginTest {
         loginPage.takeScreenShot("CT06_LinkedinPage");
     }
     @Test
+    @Order(7)
     public void CT07LinkYoutube(){
         loginPage.clickOnLink(URL_YOUTUBE);
         loginPage.takeScreenShot("CT07_ClickYoutube");
@@ -122,6 +128,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(8)
     public void CT08LinkFacebook(){
         loginPage.clickOnLink(URL_FACEBOOK);
         loginPage.takeScreenShot("CT08_ClickFacebook");
@@ -134,6 +141,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(9)
     public void CT09LinkTwitter(){
         loginPage.clickOnLink(URL_TWITTER);
         loginPage.takeScreenShot("CT09_ClickTwitter");
@@ -146,6 +154,7 @@ public class LoginTest {
     }
 
     @Test
+    @Order(10)
     public void CT10LinkOrangeHRM(){
         loginPage.clickOnLink(URL_ORANGEHRM);
         loginPage.takeScreenShot("CT10_ClickOrangeHRM");

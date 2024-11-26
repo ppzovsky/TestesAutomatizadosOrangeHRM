@@ -56,7 +56,7 @@ Garantir que a funcionalidade de login do OrangeHRM opere corretamente para dife
 ### Instalação
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+   git clone https://github.com/ppzovsky/TestesAutomatizadosOrangeHRM.git
    ```
 2. Acesse a pasta do projeto:
    ```bash

@@ -3,14 +3,17 @@ package com.projetoiLAB.tests;
 import atu.testrecorder.exceptions.ATUTestRecorderException;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.google.gson.Gson;
 import com.projetoiLAB.pages.LoginPage;
 import com.projetoiLAB.utils.ExtentManager;
 import com.projetoiLAB.utils.PrintScreenshot;
+import com.projetoiLAB.utils.ReadData;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.*;
 import java.util.Set;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -63,8 +66,9 @@ public class LoginTest {
         ExtentTest test = getExtentTest();
         try {
 
+            ReadData.Logins login = ReadData.lerJson();
             ExtentManager.getTest().info("Preenchendo as credenciais válidas.");
-            loginPage.fillLoginInputs("Admin", "admin123");
+            loginPage.fillLoginInputs(login.loginValido.username, login.loginValido.password);
             PrintScreenshot.takeScreenshot("CT01_ValidarLoginComCredenciaisValidas",
                     "CT01_CredenciaisPreenchidas", test);
             loginPage.submitLogin();
@@ -77,12 +81,9 @@ public class LoginTest {
                     "CT01_DashboardPage", test);
 
             ExtentManager.getTest().pass("Teste concluído com sucesso!");
-        } catch (AssertionError e) {
+        } catch (AssertionError | InterruptedException e) {
             logAndScreenshotOnFail("CT01_ValidarLoginComCredenciaisValidas",
                     "CT01_DashboardPage", e.getMessage(), test);
-            throw e;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -91,8 +92,10 @@ public class LoginTest {
     public void CT02_ValidarLoginComSenhaIncorreta() {
         ExtentTest test = getExtentTest();
         try {
+
+            ReadData.Logins login = ReadData.lerJson();
             ExtentManager.getTest().info("Preenchendo as credenciais com senha incorreta.");
-            loginPage.fillLoginInputs("Admin", "adm123");
+            loginPage.fillLoginInputs(login.loginValido.username, login.loginInvalido.password);
             PrintScreenshot.takeScreenshot("CT02_ValidarLoginComSenhaIncorreta",
                     "CT02_CredenciaisPreenchidas", test);
             loginPage.submitLogin();
@@ -118,8 +121,10 @@ public class LoginTest {
     public void CT03_ValidarLoginComUsuarioNaoRegistrado() {
         ExtentTest test = getExtentTest();
         try {
+
+            ReadData.Logins login = ReadData.lerJson();
             ExtentManager.getTest().info("Preenchendo as credenciais com usuário não registrado.");
-            loginPage.fillLoginInputs("Administrador", "adm123");
+            loginPage.fillLoginInputs(login.loginInvalido.username, login.loginInvalido.password);
             PrintScreenshot.takeScreenshot("CT03_ValidarLoginComUsuarioNaoRegistrado",
                     "CT03_CredenciaisPreenchidas", test);
             loginPage.submitLogin();
@@ -307,6 +312,34 @@ public class LoginTest {
             logAndScreenshotOnFail("CT10_ValidarAcessoOrangeHRM",
                     "CT10_ErroOrangeHRMPage", e.getMessage(), test);
             throw e;
+        }
+    }
+    @Test
+    @Order(11)
+    public void CT11_SimulacaoDeErro() {
+        ExtentTest test = getExtentTest();
+        try {
+
+            ReadData.Logins login = ReadData.lerJson();
+            ExtentManager.getTest().info("Preenchendo as credenciais com senha incorreta.");
+            loginPage.fillLoginInputs(login.loginValido.username, login.loginValido.password);
+            PrintScreenshot.takeScreenshot("CT02_ValidarLoginComSenhaIncorreta",
+                    "CT02_CredenciaisPreenchidas", test);
+            loginPage.submitLogin();
+
+            ExtentManager.getTest().info("Verificando mensagem de erro.");
+            Assertions.assertTrue(loginPage.isSelectedPage(URL_LOGIN_PAGE));
+            Assertions.assertTrue(loginPage.verifyMessage("/html/body/div/div[1]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/p"));
+            PrintScreenshot.takeScreenshot("CT02_ValidarLoginComSenhaIncorreta",
+                    "CT02_MensagemDeErro", test);
+
+            ExtentManager.getTest().pass("Teste concluído com sucesso!");
+        } catch (AssertionError e) {
+            logAndScreenshotOnFail("CT02_ValidarLoginComSenhaIncorreta",
+                    "CT02_MensagemDeErro", e.getLocalizedMessage(), test);
+            throw e;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }

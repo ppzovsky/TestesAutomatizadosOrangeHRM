@@ -2,18 +2,19 @@ package com.projetoiLAB.pages;
 
 import com.projetoiLAB.PageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.Duration;
 import java.util.Set;
-
 
 public class LoginPage extends PageObject {
     private static final String URL_LOGIN_PAGE = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
     public LoginPage() {
         super(null);
         this.webDriver.navigate().to(URL_LOGIN_PAGE);
+        this.webDriver.manage().window().maximize();
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/div[2]")));
     }
 
@@ -22,7 +23,7 @@ public class LoginPage extends PageObject {
         this.webDriver.findElement(By.name("password")).sendKeys(password);
     }
 
-    public void submitLogin(){
+    public void submitLogin() throws InterruptedException {
         this.webDriver.findElement(By.className("oxd-form")).submit();
     }
 
@@ -35,8 +36,13 @@ public class LoginPage extends PageObject {
         return this.webDriver.getCurrentUrl().equals(page);
     }
 
-    public boolean verifyMessage(String message) {
-        return this.webDriver.getPageSource().contains(message);
+    public boolean verifyMessage(String xpath) {
+        try {
+            this.wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public WebElement errorInput() {
@@ -61,5 +67,16 @@ public class LoginPage extends PageObject {
     public void clickOnLinkForgot() {
         WebElement button = this.webDriver.findElement(By.className("orangehrm-login-forgot-header"));
         button.click();
+        this.wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[1]/div[1]/div/form/div[2]/button[2]")));
+    }
+
+    public boolean dashboardOpen() {
+        try {
+            this.wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("/html/body/div/div[1]/div[2]/div[2]/div/div[2]/div")));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }

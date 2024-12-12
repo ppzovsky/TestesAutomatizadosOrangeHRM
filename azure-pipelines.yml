@@ -11,20 +11,7 @@ pool:
 
 steps:
 
-- task: JavaToolInstaller@1
-  inputs:
-    versionSpec: '17'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'LocalDirectory'
-    jdkFile: 'C:\Program Files\Java\jdk-17'
-    jdkDestinationDirectory: 'Área de Trabalho'
-    cleanDestinationDirectory: true
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JdkVersion'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+- script: 
+    mvn clean install
+  displayName: 'Execução Maven'
 

@@ -13,8 +13,8 @@ steps:
 
 - task: JavaToolInstaller@1
   inputs:
-    versionSpec: '17'
-    jdkArchitectureOption: 'x86'
+    versionSpec: '17.0.10'
+    jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 - task: Maven@4
   inputs:
